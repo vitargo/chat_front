@@ -53,9 +53,6 @@ module.exports = {
     extensions: [".js"],
   },
   module: {
-
-
-
     rules: [
       {
         test: /\.js$/,

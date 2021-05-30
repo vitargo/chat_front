@@ -1,5 +1,6 @@
 import "../css/style_chat.css";
 import {getCookie} from "./helpers/cookieHelper";
+const fs = require('fs');
 
 
 const CHAR_RETURN = 13;
@@ -46,7 +47,6 @@ socket.onopen = () => {
         payload: token
     };
     socket.send(JSON.stringify(envelope));
-    displayConnectedUserMessage(nickname)
 };
 
 socket.onclose = () => {
@@ -73,6 +73,9 @@ socket.onmessage = (event) => {
             break;
         case "message":
             displayMessage(envelop.nickName,envelop.payload);
+            break;
+        case "allUsersOnLine":
+            addAvailableUsers(envelop.payload);
             break;
     }
 };
@@ -155,5 +158,36 @@ function displayConnectedUserMessage(username) {
 
     var messages = document.getElementById("messages");
     messages.appendChild(message);
+}
+
+function addAvailableUsers(userlist) {
+    let buff;
+    let cont = JSON.parse(userlist)
+    for (let i=0; i < cont.length; i ++) {
+        let username = cont[i].nickName;
+        let avatar = cont[i].avatar;
+        let contact = document.createElement("div");
+        contact.setAttribute("class", "contact");
+        const myIcon = new Image();
+        if (avatar !== null) {
+            myIcon.src = 'data:image/png;base64,' + avatar;
+        } else {
+            myIcon.src = 'img/defaul_icon.png';
+        }
+        contact.appendChild(myIcon);
+
+        let status = document.createElement("div");
+        status.setAttribute("class", "status");
+        contact.appendChild(status);
+
+        let content = document.createElement("span");
+        content.setAttribute("class", "name");
+        content.appendChild(document.createTextNode(username));
+        contact.appendChild(content);
+
+        let contacts = document.getElementById("contacts");
+        contacts.appendChild(contact);
+    }
+
 }
 
