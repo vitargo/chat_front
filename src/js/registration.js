@@ -8,9 +8,7 @@ import {
 import { postRequest, URL } from "./helpers/request.js";
 import { redirect } from "./helpers/general.js";
 import { renderError, renderText } from "./helpers/render.js";
-import { setLocalStorage } from "./helpers/localStorageOperations.js";
 import axios from "axios";
-import {setCookie} from "./helpers/cookieHelper";
 
 export const regInit = () => {
   //login nodes
@@ -25,15 +23,8 @@ export const regInit = () => {
   const phone = form_reg.phone;
   const companyname = form_reg.companyName;
 
-
-  // const guestLink = document.querySelector("#guest");
   const signButton = document.querySelector("#submit-reg");
   const errorText = document.querySelector(".error-text");
-
-  // guestLink.addEventListener("click", (e) => {
-    // setLocalStorage("role", "guest");
-  //   redirect("chat.html");
-  // });
 
   signButton.addEventListener("click", (event) => {
     event.preventDefault();
@@ -77,14 +68,14 @@ export const regInit = () => {
         renderText(errorText, "");
         return renderError(
           errorText,
-          "login length must be more then 3 symbols and less 25 symbols. Only latin characters and numeric in it"
+          "Login must contain between 5 and 10 latin characters or numeric!"
         );
       }
       if (!passValid) {
         renderText(errorText, "");
         return renderError(
           errorText,
-          "password length must be more then 6 symbols and less 25 symbols. Only latin characters and numberic in it"
+          "The Password must contain between 6 and 25 latin characters or numeric!"
         );
       }
     }

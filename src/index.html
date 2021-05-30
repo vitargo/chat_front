@@ -6,10 +6,9 @@
     <title>PinkLink Chat</title>
     <meta name="description" content="Servlet chat application">
     <meta name="author" content="PinkLink Team">
-<!--    <link rel="stylesheet" href="/dist/index.css">-->
 </head>
 
-<body id="body_auth">
+<body id="body_auth" style="background-image: url('/img/auth_bg.png')">
 <div id="root">
     <div name="logo_container" class="logo_container">
         <div name="logo" class="logo">
@@ -19,7 +18,7 @@
     </div>
     <div name="form_container" class="form_container">
         <form name="AuthForm" class="form" method="post" autocomplete="off">
-            <input type="text" class="form__input" name="login" placeholder="Enter login or email" maxlength="10" required="">
+            <input type="text" class="form__input" name="login" placeholder="Enter login or email" maxlength="10" style="margin-top: 120px" required="">
             <div class="error" name="error_login"></div>
             <br>
             <input type="password" class="form__input" name="password" placeholder="Password" maxlength="10" required="" style="margin-left: 0px">
@@ -27,8 +26,13 @@
             <br>
             <button type="submit" class="form__btn"  id="submit-auth">SIGN IN</button>
             <br>
-            <div class="box-auth__redirect">Don`t have an account?
-                <a href="registration.html" class="box-auth__link">Sign up</a>
+            <div class="box-auth__redirect">
+                <br>
+                <spam>
+                    <a href="registration.html" class="box-auth__link">Sign up</a>
+                    <img src="img/line_g.webp" style="height: 25px; width: 10px">
+                    <a href="registration.html" class="box-auth__link">Forget password</a>
+                </spam>
             </div>
         </form>
         <div class="box-auth__error">

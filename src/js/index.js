@@ -5,8 +5,6 @@ import {redirect} from "./helpers/general";
 import {renderError, renderText} from "./helpers/render.js";
 
 import axios from "axios";
-import {getCookie} from "./helpers/cookieHelper";
-
 
 export const IndexInit = () => {
 
@@ -39,12 +37,12 @@ export const IndexInit = () => {
                 console.log(response.data.nickName)
                 console.log(response.data.token)
                 redirect("chat.html");
-            } else return renderError(errorText, "некоректный логин или пароль");
+            } else return renderError(errorText, "Opps...Invalid password or login!");
         })
             .catch((e) => {
                 console.log(e);
                 renderText(errorText, "");
-                return renderError(errorText, "некоректный логин или пароль");
+                return renderError(errorText, "Opps...Invalid password or login!");
             });
 
     });

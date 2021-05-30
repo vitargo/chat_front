@@ -161,7 +161,6 @@ function displayConnectedUserMessage(username) {
 }
 
 function addAvailableUsers(userlist) {
-    let buff;
     let cont = JSON.parse(userlist)
     for (let i=0; i < cont.length; i ++) {
         let username = cont[i].nickName;

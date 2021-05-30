@@ -72,10 +72,9 @@ button:focus {
     float: left;
     width: 120px;
     padding: 20px;
-    background-color: #52667c;
     min-height: calc(100vh - 85px);
     max-height: calc(100vh - 85px);
-    /*display: none;*/
+    background: linear-gradient(#091f2e, #132b45);
 }
 
 #contacts .contact .status {
@@ -90,6 +89,7 @@ button:focus {
 #contacts .contact .name {
     line-height: 40px;
     vertical-align: super;
+    color: #d9aec4;
 }
 
 /* Chat */
@@ -158,7 +158,7 @@ button:focus {
 }
 
 #messages .message.sent .sender {
-    color: #0084FF;
+    color: #0084ff;
     font-size: 10px;
 }
 
@@ -173,6 +173,7 @@ button:focus {
 
 #chat-controls input[type="text"] {
     width: calc(100% - 9em);
+    margin-bottom: 20px;
 }
 
 #messages .message.sent.same-sender-previous-message .sender,
@@ -212,4 +213,10 @@ h1 {
     margin:10px;
     display: -webkit-box;
 
+}
+
+.box-auth__link {
+    color: #52667c;
+    font-family: "Al Nile", sans-serif;
+    padding-bottom: 5px;
 }

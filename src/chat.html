@@ -5,9 +5,8 @@
   <title>PinkLink Chat</title>
   <meta name="description" content="Servlet chat application">
   <meta name="author" content="PinkLink Team">
-<!--  <link rel="stylesheet" href="/dist/chat.css">-->
 </head>
-<body id="body_chat">
+<body id="body_chat" style="background-image: url('/img/chat_bg.png')">
 <div id="root">
   <div name="logo_container" class="logo_container">
     <div name="logo" class="logo">
@@ -16,7 +15,9 @@
     <span><h1>PinkLink Chat</h1></span>
   </div>
 <div class="inline">
-  <div id="contacts" style="border: solid black 1px; height: 100px"></div>
+  <div id="contacts" style="border: solid black 1px; height: 100px">
+    <a href="myaccount.html" class="box-auth__link">My account</a>
+  </div>
   <div id="chat">
     <div id="messages"></div>
     <form id="chat-controls" onsubmit="return false;">

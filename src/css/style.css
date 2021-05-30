@@ -1,21 +1,18 @@
 body{
-    /*text-align: center;*/
     margin: 0;
-    /*background-image: url("./src/img/auth_bg.png");*/
     background-size: cover;
 }
 
 #body_chat{
-    background-color: #1eae98;
-    /*background-image: url("./src/img/auth_bg.png");*/
+    background-color: #52667c;
 }
 
 #body_auth {
-    background-color: #d9aec4;
+    background-color: #52667c;
 }
 
 #body_reg{
-    background-color: #394c61;
+    background-color: #52667c;
 }
 
 div{
@@ -68,6 +65,7 @@ h1 {
     display: contents;
     text-align: center;
     vertical-align: middle;
+    padding-top: 200px;
 }
 
 .form__input {
@@ -114,4 +112,15 @@ h1 {
     padding-left: 0;
     padding-top: 0;
     padding-bottom: 0;
+}
+
+.box-auth__link {
+    color: #52667c;
+    font-family: "Al Nile", sans-serif;
+    padding-bottom: 5px;
+}
+
+.error-text{
+    font-family: "Al Nile", sans-serif;
+    color: rgba(255, 0, 0, 0.84);
 }

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>PinkLink Chat</title>
+    <meta name="description" content="Servlet chat application">
+    <meta name="author" content="PinkLink Team">
+</head>
+<body id="body_auth" style="background-image: url('/img/chat_bg.png')">
+<div id="root">
+    <div class="logo_container">
+        <div class="logo">
+            <img src="img/logo_pl.png">
+        </div>
+        <span><h1>PinkLink Chat</h1></span>
+    </div>
+    <div class="form_container">
+        <form name="AuthForm" class="form" method="post" autocomplete="off">
+            <label for="1" class="box-auth__link">Nickname.....</label>
+            <input type="text" class="form__input" id="1" name="nickName" maxlength="10" required="" style="width: 500px">
+            <div class="error" name="error_login"></div>
+            <br>
+            <label for="2" class="box-auth__link">First name.....</label>
+            <input type="text" class="form__input" id="2" name="firstName" style="width: 500px">
+            <div class="error" name="error_login"></div>
+            <br>
+            <label for="3" class="box-auth__link">Last name.....</label>
+            <input type="text" class="form__input" id="3"name="lastName" style="width: 500px">
+            <div class="error" name="error_login"></div>
+            <br>
+            <label for="4" class="box-auth__link">Email..........</label>
+            <input type="text" class="form__input" id="4"name="email"  required=""style="width: 500px">
+            <div class="error" name="error_login"></div>
+            <br>
+            <label for="5" class="box-auth__link">Login..........</label>
+            <input type="text" class="form__input" id="5" name="login"  maxlength="10" required=""style="width: 500px">
+            <div class="error" name="error_login"></div>
+            <br>
+            <label for="5" class="box-auth__link">Password......</label>
+            <input type="password" class="form__input" name="password"  maxlength="10" required="" style="width: 500px">
+            <div class="error" name="error_password"></div>
+            <br>
+            <label for="7" class="box-auth__link">Phone..........</label>
+            <input type="text" class="form__input" id="7" name="phone" style="width: 500px">
+            <div class="error" name="error_login"></div>
+            <br>
+            <label for="8" class="box-auth__link">Company name.</label>
+            <input type="text" class="form__input" id="8" name="companyName" style="width: 500px">
+            <div class="error" name="error_login"></div>
+            <br>
+            <button type="submit" class="form__btn" id="submit-reg">CHANGE DATA</button>
+            <br>
+            <div class="box-auth__redirect">
+                <br>
+                <spam>
+                    <a href="chat.html" class="box-auth__link">Back to chat</a>
+                </spam>
+            </div>
+        </form>
+        <div class="box-auth__error">
+            <p class="error-text"></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

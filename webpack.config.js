@@ -15,6 +15,10 @@ module.exports = {
       "@babel/polyfill",
       path.resolve(__dirname, "./src/js/chat.js"),
     ],
+    myaccount: [
+      "@babel/polyfill",
+      path.resolve(__dirname, "./src/js/myaccount.js"),
+    ],
   },
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -40,6 +44,11 @@ module.exports = {
       template: "src/registration.html",
       filename: "registration.html",
       chunks: ["registration"],
+    }),
+    new HtmlWebpackPlugin({
+      template: "src/myaccount.html",
+      filename: "myaccount.html",
+      chunks: ["myaccount"],
     }),
     new MiniCssExtractPlugin({
       filename: "[name].css",
