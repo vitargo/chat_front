@@ -1,9 +1,11 @@
 import "../css/style.css";
 import {getCookie} from "./helpers/cookieHelper";
+
+
 const CHAR_RETURN = 13;
 
-const socket = new WebSocket('ws://localhost:8080/chat');
-const usr = document.getElementById('users');
+const socket = new WebSocket('ws://localhost:8081/chat');
+const usr = document.getElementById('contacts');
 const chat = document.getElementById('chat');
 const msg = document.getElementById('message');
 const btn = document.getElementById('btn');
@@ -11,30 +13,6 @@ const btn = document.getElementById('btn');
 msg.focus();
 const nickname = getCookie("nickName");
 const token = getCookie("token");
-
-
-let payloadToken = {
-    message: msg.value,
-    nickname: nickname,
-    expireIn: new Date(),
-    createdAt: new Date(),
-}
-
-
-
-const usersNickName = nickname => {
-    const line = document.createElement('li');
-    line.innerHTML = `<img src="https://www.meme-arsenal.com/memes/755658588d31fbf527a72b152150e4fa.jpg" alt="">
-                <div>
-                    <h2>${nickname}</h2>
-                    <h3>
-                        <span class="status green"></span>
-                        online
-                    </h3>
-                </div>`;
-    usr.appendChild(line);
-};
-
 const writeLineNickName = nickname => {
     const line = document.createElement('div');
     line.innerHTML = `<p>${nickname}</p>`;
@@ -60,13 +38,14 @@ const writeLine = text => {
 socket.onopen = () => {
     writeLine('<div class="connect">Connected</div>');
 
-    usersNickName(nickname);
+
     let envelope = {
         topic: 'auth',
-        token: token,
-        payload: JSON.stringify(payloadToken)
+        payload: JSON.stringify(token)
     };
     socket.send(JSON.stringify(envelope));
+
+    displayConnectedUserMessage(nickname)
 };
 
 socket.onclose = () => {
@@ -76,18 +55,13 @@ socket.onclose = () => {
 btn.onclick = () => {
 
     const s = msg.value;
-    msg.value = '';
-    let payloadToken = {
-        nickname: nickname,
-        time: new Date(),
-        text: s
-    }
-
     let envelope = {
-        topic: 'messages',
-        payload: JSON.stringify(payloadToken)
+        topic: 'message',
+        payload: s
     };
     socket.send(JSON.stringify(envelope));
+
+    displayMessage(usr, s);
 }
 
 msg.addEventListener('keydown', event => {
@@ -108,15 +82,93 @@ msg.addEventListener('keydown', event => {
     }
 });
 
+// socket.onmessage = function (event) {
+// let message = JSON.parse(event.data);
+// if (message) {
+//     let payload = JSON.parse(message.payload);
+//     if (payload && payload.text) {
+//         writeLineNickName(payload.nickname);
+//         writeLineTime(payload.time);
+//         writeLine(payload.text);
+//     }
+// }
+//
+// };
+
 socket.onmessage = function (event) {
-    let message = JSON.parse(event.data);
-    if (message) {
-        let payload = JSON.parse(message.payload);
-        if (payload && payload.text) {
-            writeLineNickName(payload.nickname);
-            writeLineTime(payload.time);
-            writeLine(payload.text);
+
+    // if (typeof event.data === "string") {
+    //
+    //     var webSocketMessage = JSON.parse(event.data);
+    //     switch (webSocketMessage.type) {
+            //
+            // case "welcomeUser":
+            //     displayConnectedUserMessage(webSocketMessage.payload.username);
+            //     break;
+
+            // case "broadcastTextMessage":
+                displayMessage(nickname, msg.value);
+                // break;
+            //
+            // case "broadcastConnectedUser":
+            //     displayConnectedUserMessage(webSocketMessage.payload.username);
+            //     break;
+            //
+            // case "broadcastDisconnectedUser":
+            //     displayDisconnectedUserMessage(webSocketMessage.payload.username);
+            //     break;
+            //
+            // case "broadcastAvailableUsers":
+            //     cleanAvailableUsers();
+            //     for (var i = 0; i < webSocketMessage.payload.usernames.length; i++) {
+            //         addAvailableUsers(webSocketMessage.payload.usernames[i]);
+            //     }
+    //         //     break;
+    //     }
+    // }
+};
+function displayMessage(username, text) {
+
+        var sentByCurrentUer = nickname === username;
+
+        var message = document.createElement("div");
+        message.setAttribute("class", sentByCurrentUer === true ? "message sent" : "message received");
+        message.dataset.sender = username;
+
+        var sender = document.createElement("span");
+        sender.setAttribute("class", "sender");
+        sender.appendChild(document.createTextNode(sentByCurrentUer === true ? "You" : username));
+        message.appendChild(sender);
+
+        var content = document.createElement("span");
+        content.setAttribute("class", "content");
+        content.appendChild(document.createTextNode(text));
+        message.appendChild(content);
+
+        var messages = document.getElementById("messages");
+        var lastMessage = messages.lastChild;
+        if (lastMessage && lastMessage.dataset.sender && lastMessage.dataset.sender === username) {
+            message.className += " same-sender-previous-message";
         }
+
+        messages.appendChild(message);
+        messages.scrollTop = messages.scrollHeight;
     }
 
-};
+function displayConnectedUserMessage(username) {
+
+    var sentByCurrentUer = currentUser === username;
+
+    var message = document.createElement("div");
+    message.setAttribute("class", "message event");
+
+    var text = sentByCurrentUer === true ? "Welcome " + username : username + " joined the chat";
+    var content = document.createElement("span");
+    content.setAttribute("class", "content");
+    content.appendChild(document.createTextNode(text));
+    message.appendChild(content);
+
+    var messages = document.getElementById("messages");
+    messages.appendChild(message);
+}
+

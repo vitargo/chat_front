@@ -7,6 +7,7 @@ body{
 
 #body_chat{
     background-color: #1eae98;
+    /*background-image: url("./src/img/auth_bg.png");*/
 }
 
 #body_auth {
@@ -64,7 +65,7 @@ h1 {
 .form{
     height: 500px;
     width: 900px;
-    display: table-cell;
+    display: contents;
     text-align: center;
     vertical-align: middle;
 }
@@ -117,14 +118,16 @@ h1 {
 
 /* Contact list */
 
-#users {
+#contacts {
+    border: black 1px;
     float: left;
     width: 120px;
     padding: 20px;
     background-color: aliceblue;
     min-height: calc(100vh - 85px);
     max-height: calc(100vh - 85px);
-    display: none;
+    /*display: none;*/
+
 }
 
 #contacts .contact .status {

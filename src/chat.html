@@ -18,13 +18,15 @@
     </div>
     <span><h1>PinkLink Chat</h1></span>
   </div>
-  <div id="users"></div>
+  <div id="contacts" style="border: solid black 1px; height: 100px">
+    <h1>Users</h1>
+  </div>
 
   <div id="chat">
     <div id="messages"></div>
     <form id="chat-controls" onsubmit="return false;">
       <input type="text" class="form__input" id="message" placeholder="Enter a message"/>
-      <button class="form__btn" onclick="sendMessage()">Send</button>
+      <button class="form__btn" id="btn" onclick="sendMessage()">Send</button>
     </form>
   </div>
 <!--<div id="container">-->

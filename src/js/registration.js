@@ -12,23 +12,26 @@ import { setLocalStorage } from "./helpers/localStorageOperations.js";
 
 export const regInit = () => {
   //login nodes
-  const regForm = document.querySelector("form");
-  const login = regForm.login;
-  const password = regForm.password;
-  const confirm = regForm.confirm;
-  const email = regForm.email;
-  const nickname = regForm.nickname;
-  const phone = regForm.phone;
-  const firstname = regForm.firstname;
-  const lastname = regForm.lastname;
-  const guestLink = document.querySelector("#guest");
+  const form_reg = document.querySelector("form");
+  const nickname = form_reg.nickName;
+  const firstname = form_reg.firstName;
+  const lastname = form_reg.lastName;
+  const email = form_reg.email;
+  const login = form_reg.login;
+  const password = form_reg.password;
+  const confirm = form_reg.confirmPassword;
+  const phone = form_reg.phone;
+  const companyname = form_reg.companyName;
+
+
+  // const guestLink = document.querySelector("#guest");
   const signButton = document.querySelector("#submit-reg");
   const errorText = document.querySelector(".error-text");
 
-  guestLink.addEventListener("click", (e) => {
-    setLocalStorage("role", "guest");
-    redirect("chat.html");
-  });
+  // guestLink.addEventListener("click", (e) => {
+    // setLocalStorage("role", "guest");
+  //   redirect("chat.html");
+  // });
 
   signButton.addEventListener("click", (event) => {
     event.preventDefault();
@@ -37,14 +40,14 @@ export const regInit = () => {
       console.log('valid' ,valid);
     if (valid) {
       const bodyObject = {
+        nickName: nickname.value,
         firstName: firstname.value,
         lastName: lastname.value,
+        email: email.value,
         login: login.value,
         password: password.value,
-        passwordConfirm: confirm.value,
-        email: email.value,
-        nickname: nickname.value,
         phone: phone.value,
+        companyName: companyname.value
       };
       const options = {
         method: "POST",
@@ -53,7 +56,7 @@ export const regInit = () => {
         body: JSON.stringify(bodyObject),
       };
 
-      const authURL = URL + "/users/reg";
+      const authURL = URL + "/chat/reg";
       renderText(errorText, "");
       postRequest(authURL, options)
         .then((data) => {

@@ -32,13 +32,8 @@ export const IndexInit = () => {
         ).then((response) => {
             console.log(response);
             if (response.status === 200) {
-
-                // if (data.body.role !== 'admin') {
-                //     data.body.role = 'user';
-                // }
-                setCookie("nickName",response.headers.nickname);
-                setCookie("token", response.data);
-                // setLocalStorage("role", data.body.role);
+                setCookie("nickName",response.data);
+                setCookie("token", response.headers["Authorization"]);
                 redirect("chat.html");
             } else return renderError(errorText, "некоректный логин или пароль");
         })
