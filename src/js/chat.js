@@ -1,4 +1,4 @@
-import "../css/style.css";
+import "../css/style_chat.css";
 import {getCookie} from "./helpers/cookieHelper";
 
 
@@ -10,9 +10,10 @@ const chat = document.getElementById('chat');
 const msg = document.getElementById('message');
 const btn = document.getElementById('btn');
 
-msg.focus();
 const nickname = getCookie("nickName");
 const token = getCookie("token");
+
+
 const writeLineNickName = nickname => {
     const line = document.createElement('div');
     line.innerHTML = `<p>${nickname}</p>`;
@@ -36,15 +37,14 @@ const writeLine = text => {
 };
 
 socket.onopen = () => {
+    msg.focus();
     writeLine('<div class="connect">Connected</div>');
-
 
     let envelope = {
         topic: 'auth',
         payload: JSON.stringify(token)
     };
     socket.send(JSON.stringify(envelope));
-
     displayConnectedUserMessage(nickname)
 };
 
@@ -53,34 +53,46 @@ socket.onclose = () => {
 };
 
 btn.onclick = () => {
-
     const s = msg.value;
+    msg.value = '';
     let envelope = {
         topic: 'message',
         payload: s
     };
     socket.send(JSON.stringify(envelope));
+    displayMessage(nickname, s);
 
-    displayMessage(usr, s);
 }
 
-msg.addEventListener('keydown', event => {
-    if (event.keyCode === CHAR_RETURN) {
-        const s = msg.value;
-        msg.value = '';
-        let payloadToken = {
-            nickname: nickname,
-            time: new Date(),
-            text: s
-        }
-
-        let envelope = {
-            topic: 'messages',
-            payload: JSON.stringify(payloadToken)
-        };
-        socket.send(JSON.stringify(envelope));
+socket.onmessage = (event) => {
+    let envelop = JSON.parse(event.data);
+    switch (envelop.topic) {
+        case "auth":
+            displayConnectedUserMessage(nickname);
+            break;
+        case "message":
+            displayMessage(nickname,envelop.payload);
+            break;
     }
-});
+};
+
+// msg.addEventListener('keydown', event => {
+//     if (event.keyCode === CHAR_RETURN) {
+//         const s = msg.value;
+//         msg.value = '';
+//         let payloadToken = {
+//             nickname: nickname,
+//             time: new Date(),
+//             text: s
+//         }
+//
+//         let envelope = {
+//             topic: 'messages',
+//             payload: JSON.stringify(payloadToken)
+//         };
+//         socket.send(JSON.stringify(envelope));
+//     }
+// });
 
 // socket.onmessage = function (event) {
 // let message = JSON.parse(event.data);
@@ -95,38 +107,10 @@ msg.addEventListener('keydown', event => {
 //
 // };
 
-socket.onmessage = function (event) {
+// socket.onmessage = function (event) {
+//     displayMessage(nickname, msg.value);
+// };
 
-    // if (typeof event.data === "string") {
-    //
-    //     var webSocketMessage = JSON.parse(event.data);
-    //     switch (webSocketMessage.type) {
-            //
-            // case "welcomeUser":
-            //     displayConnectedUserMessage(webSocketMessage.payload.username);
-            //     break;
-
-            // case "broadcastTextMessage":
-                displayMessage(nickname, msg.value);
-                // break;
-            //
-            // case "broadcastConnectedUser":
-            //     displayConnectedUserMessage(webSocketMessage.payload.username);
-            //     break;
-            //
-            // case "broadcastDisconnectedUser":
-            //     displayDisconnectedUserMessage(webSocketMessage.payload.username);
-            //     break;
-            //
-            // case "broadcastAvailableUsers":
-            //     cleanAvailableUsers();
-            //     for (var i = 0; i < webSocketMessage.payload.usernames.length; i++) {
-            //         addAvailableUsers(webSocketMessage.payload.usernames[i]);
-            //     }
-    //         //     break;
-    //     }
-    // }
-};
 function displayMessage(username, text) {
 
         var sentByCurrentUer = nickname === username;
@@ -157,7 +141,7 @@ function displayMessage(username, text) {
 
 function displayConnectedUserMessage(username) {
 
-    var sentByCurrentUer = currentUser === username;
+    var sentByCurrentUer = nickname === username;
 
     var message = document.createElement("div");
     message.setAttribute("class", "message event");

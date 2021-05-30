@@ -9,6 +9,8 @@ import { postRequest, URL } from "./helpers/request.js";
 import { redirect } from "./helpers/general.js";
 import { renderError, renderText } from "./helpers/render.js";
 import { setLocalStorage } from "./helpers/localStorageOperations.js";
+import axios from "axios";
+import {setCookie} from "./helpers/cookieHelper";
 
 export const regInit = () => {
   //login nodes
@@ -39,7 +41,7 @@ export const regInit = () => {
     const valid = validateLogin(login.value) &&  validatePassword(password.value) && compare(password.value, confirm.value, errorText);
       console.log('valid' ,valid);
     if (valid) {
-      const bodyObject = {
+      const bodyObject = JSON.stringify({
         nickName: nickname.value,
         firstName: firstname.value,
         lastName: lastname.value,
@@ -48,34 +50,26 @@ export const regInit = () => {
         password: password.value,
         phone: phone.value,
         companyName: companyname.value
-      };
+      });
       const options = {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(bodyObject),
+        headers: {"content-type": "application/json"}
       };
 
       const authURL = URL + "/chat/reg";
       renderText(errorText, "");
-      postRequest(authURL, options)
-        .then((data) => {
-          console.log(data.status);
-          if (data.status === 200) {
-            redirect("index.html");
-          } else {
-            if (data.status === 401) {
-              return renderError(
-                errorText,
-                "We have this user. please use Another login"
-              );
-            }
-          }
-        })
-        .catch((e) => {
-          renderText(errorText, "");
-          return renderError(errorText, "Server is not responding");
-        });
+      axios.post(authURL, bodyObject, options
+      ).then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          redirect("index.html");
+          return renderError(errorText, "Check email and login!");
+        } else return renderError(errorText, "Oppps...something wrong!");
+      })
+          .catch((e) => {
+            console.log(e);
+            renderText(errorText, "");
+            return renderError(errorText, "Server is not responding!");
+          });
     } else {
       const loginValid = validateLogin(login.value);
       const passValid = validatePassword(password.value);

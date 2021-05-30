@@ -33,7 +33,7 @@ export const IndexInit = () => {
             console.log(response);
             if (response.status === 200) {
                 setCookie("nickName",response.data);
-                setCookie("token", response.headers["Authorization"]);
+                setCookie("token", response.headers["authorization"]);
                 redirect("chat.html");
             } else return renderError(errorText, "некоректный логин или пароль");
         })
