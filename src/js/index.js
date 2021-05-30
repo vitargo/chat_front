@@ -5,6 +5,7 @@ import {redirect} from "./helpers/general";
 import {renderError, renderText} from "./helpers/render.js";
 
 import axios from "axios";
+import {getCookie} from "./helpers/cookieHelper";
 
 
 export const IndexInit = () => {
@@ -32,8 +33,11 @@ export const IndexInit = () => {
         ).then((response) => {
             console.log(response);
             if (response.status === 200) {
-                setCookie("nickName",response.data);
-                setCookie("token", response.headers["authorization"]);
+                setCookie("nickName",response.data.nickName);
+                setCookie("token", response.data.token);
+                console.log(response.data)
+                console.log(response.data.nickName)
+                console.log(response.data.token)
                 redirect("chat.html");
             } else return renderError(errorText, "некоректный логин или пароль");
         })

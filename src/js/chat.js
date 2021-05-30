@@ -14,20 +14,20 @@ const nickname = getCookie("nickName");
 const token = getCookie("token");
 
 
-const writeLineNickName = nickname => {
-    const line = document.createElement('div');
-    line.innerHTML = `<p>${nickname}</p>`;
-    line.setAttribute("class", "nickName");
-    chat.appendChild(line);
-};
-
-const writeLineTime = time => {
-    time = new Date().toLocaleString('en-US', {timeZone: 'Europe/Kiev'});
-    const line = document.createElement('div');
-    line.setAttribute("class", "times");
-    line.innerHTML = `<p>${time}</p>`;
-    chat.appendChild(line);
-};
+// const writeLineNickName = nickname => {
+//     const line = document.createElement('div');
+//     line.innerHTML = `<p>${nickname}</p>`;
+//     line.setAttribute("class", "nickName");
+//     chat.appendChild(line);
+// };
+//
+// const writeLineTime = time => {
+//     time = new Date().toLocaleString('en-US', {timeZone: 'Europe/Kiev'});
+//     const line = document.createElement('div');
+//     line.setAttribute("class", "times");
+//     line.innerHTML = `<p>${time}</p>`;
+//     chat.appendChild(line);
+// };
 
 const writeLine = text => {
     const line = document.createElement('div');
@@ -42,7 +42,8 @@ socket.onopen = () => {
 
     let envelope = {
         topic: 'auth',
-        payload: JSON.stringify(token)
+        nickName: nickname,
+        payload: token
     };
     socket.send(JSON.stringify(envelope));
     displayConnectedUserMessage(nickname)
@@ -57,42 +58,42 @@ btn.onclick = () => {
     msg.value = '';
     let envelope = {
         topic: 'message',
+        nickName: nickname,
         payload: s
     };
     socket.send(JSON.stringify(envelope));
-    displayMessage(nickname, s);
-
 }
 
 socket.onmessage = (event) => {
+    console.debug("WebSocket message received:", event);
     let envelop = JSON.parse(event.data);
     switch (envelop.topic) {
         case "auth":
-            displayConnectedUserMessage(nickname);
+            displayConnectedUserMessage(envelop.nickName);
             break;
         case "message":
-            displayMessage(nickname,envelop.payload);
+            displayMessage(envelop.nickName,envelop.payload);
             break;
     }
 };
 
-// msg.addEventListener('keydown', event => {
-//     if (event.keyCode === CHAR_RETURN) {
-//         const s = msg.value;
-//         msg.value = '';
-//         let payloadToken = {
-//             nickname: nickname,
-//             time: new Date(),
-//             text: s
-//         }
-//
-//         let envelope = {
-//             topic: 'messages',
-//             payload: JSON.stringify(payloadToken)
-//         };
-//         socket.send(JSON.stringify(envelope));
-//     }
-// });
+msg.addEventListener('keydown', event => {
+    if (event.keyCode === CHAR_RETURN) {
+        const s = msg.value;
+        msg.value = '';
+        let payloadToken = {
+            nickname: nickname,
+            time: new Date(),
+            text: s
+        }
+
+        let envelope = {
+            topic: 'messages',
+            payload: JSON.stringify(payloadToken)
+        };
+        socket.send(JSON.stringify(envelope));
+    }
+});
 
 // socket.onmessage = function (event) {
 // let message = JSON.parse(event.data);
