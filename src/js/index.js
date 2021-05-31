@@ -8,7 +8,6 @@ import axios from "axios";
 
 export const IndexInit = () => {
 
-    //login nodes
     const regForm = document.querySelector("form");
     const login = regForm.login;
     const password = regForm.password;
@@ -31,7 +30,7 @@ export const IndexInit = () => {
         ).then((response) => {
             console.log(response);
             if (response.status === 200) {
-                setCookie("nickName",response.data.nickName);
+                setCookie("nickName", response.data.nickName);
                 setCookie("token", response.data.token);
                 console.log(response.data)
                 console.log(response.data.nickName)

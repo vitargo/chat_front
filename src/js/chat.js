@@ -1,7 +1,5 @@
 import "../css/style_chat.css";
 import {getCookie} from "./helpers/cookieHelper";
-const fs = require('fs');
-
 
 const CHAR_RETURN = 13;
 
@@ -13,22 +11,6 @@ const btn = document.getElementById('btn');
 
 const nickname = getCookie("nickName");
 const token = getCookie("token");
-
-
-// const writeLineNickName = nickname => {
-//     const line = document.createElement('div');
-//     line.innerHTML = `<p>${nickname}</p>`;
-//     line.setAttribute("class", "nickName");
-//     chat.appendChild(line);
-// };
-//
-// const writeLineTime = time => {
-//     time = new Date().toLocaleString('en-US', {timeZone: 'Europe/Kiev'});
-//     const line = document.createElement('div');
-//     line.setAttribute("class", "times");
-//     line.innerHTML = `<p>${time}</p>`;
-//     chat.appendChild(line);
-// };
 
 const writeLine = text => {
     const line = document.createElement('div');
@@ -97,23 +79,6 @@ msg.addEventListener('keydown', event => {
         socket.send(JSON.stringify(envelope));
     }
 });
-
-// socket.onmessage = function (event) {
-// let message = JSON.parse(event.data);
-// if (message) {
-//     let payload = JSON.parse(message.payload);
-//     if (payload && payload.text) {
-//         writeLineNickName(payload.nickname);
-//         writeLineTime(payload.time);
-//         writeLine(payload.text);
-//     }
-// }
-//
-// };
-
-// socket.onmessage = function (event) {
-//     displayMessage(nickname, msg.value);
-// };
 
 function displayMessage(username, text) {
 
