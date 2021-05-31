@@ -3,7 +3,8 @@ import {getCookie} from "./helpers/cookieHelper";
 
 const CHAR_RETURN = 13;
 
-const socket = new WebSocket('ws://localhost:8081/chat');
+const socket = new WebSocket('ws://servlet-chat-pinklink.herokuapp.com/chat');
+// const socket = new WebSocket('ws://localhost:8081/chat');
 const usr = document.getElementById('contacts');
 const chat = document.getElementById('chat');
 const msg = document.getElementById('message');
@@ -54,7 +55,7 @@ socket.onmessage = (event) => {
             displayConnectedUserMessage(envelop.nickName);
             break;
         case "message":
-            displayMessage(envelop.nickName,envelop.payload);
+            displayMessage(envelop.nickName, envelop.payload);
             break;
         case "allUsersOnLine":
             addAvailableUsers(envelop.payload);
@@ -64,70 +65,64 @@ socket.onmessage = (event) => {
 
 msg.addEventListener('keydown', event => {
     if (event.keyCode === CHAR_RETURN) {
-        const s = msg.value;
-        msg.value = '';
-        let payloadToken = {
-            nickname: nickname,
-            time: new Date(),
-            text: s
-        }
-
-        let envelope = {
-            topic: 'messages',
-            payload: JSON.stringify(payloadToken)
-        };
-        socket.send(JSON.stringify(envelope));
+        event.preventDefault();
+        // Trigger the button element with a click
+        btn.click();
     }
 });
 
 function displayMessage(username, text) {
 
-        var sentByCurrentUer = nickname === username;
-
-        var message = document.createElement("div");
-        message.setAttribute("class", sentByCurrentUer === true ? "message sent" : "message received");
-        message.dataset.sender = username;
-
-        var sender = document.createElement("span");
-        sender.setAttribute("class", "sender");
-        sender.appendChild(document.createTextNode(sentByCurrentUer === true ? "You" : username));
-        message.appendChild(sender);
-
-        var content = document.createElement("span");
-        content.setAttribute("class", "content");
-        content.appendChild(document.createTextNode(text));
-        message.appendChild(content);
-
-        var messages = document.getElementById("messages");
-        var lastMessage = messages.lastChild;
-        if (lastMessage && lastMessage.dataset.sender && lastMessage.dataset.sender === username) {
-            message.className += " same-sender-previous-message";
-        }
-
-        messages.appendChild(message);
-        messages.scrollTop = messages.scrollHeight;
-    }
-
-function displayConnectedUserMessage(username) {
-
     var sentByCurrentUer = nickname === username;
 
     var message = document.createElement("div");
-    message.setAttribute("class", "message event");
+    message.setAttribute("class", sentByCurrentUer === true ? "message sent" : "message received");
+    message.dataset.sender = username;
 
-    var text = sentByCurrentUer === true ? "Welcome " + username : username + " joined the chat";
+    var sender = document.createElement("span");
+    sender.setAttribute("class", "sender");
+    sender.appendChild(document.createTextNode(sentByCurrentUer === true ? "You" : username));
+    message.appendChild(sender);
+
     var content = document.createElement("span");
     content.setAttribute("class", "content");
     content.appendChild(document.createTextNode(text));
     message.appendChild(content);
 
     var messages = document.getElementById("messages");
+    var lastMessage = messages.lastChild;
+    if (lastMessage && lastMessage.dataset.sender && lastMessage.dataset.sender === username) {
+        message.className += " same-sender-previous-message";
+    }
+
+    messages.appendChild(message);
+    messages.scrollTop = messages.scrollHeight;
+}
+
+function displayConnectedUserMessage(username) {
+
+    let sentByCurrentUer = nickname === username;
+
+    let message = document.createElement("div");
+    message.setAttribute("class", "message event");
+
+    let text = sentByCurrentUer === true ? "Welcome " + username : username + " joined the chat";
+    let content = document.createElement("span");
+    content.setAttribute("class", "content");
+    content.appendChild(document.createTextNode(text));
+    message.appendChild(content);
+
+    let messages = document.getElementById("messages");
     messages.appendChild(message);
 }
 
 function addAvailableUsers(userlist) {
+    const parent = document.getElementById("online")
+    while (parent.firstChild) {
+        parent.firstChild.remove()
+    }
     let cont = JSON.parse(userlist)
-    for (let i=0; i < cont.length; i ++) {
+    for (let i = 0; i < cont.length; i++) {
         let username = cont[i].nickName;
         let avatar = cont[i].avatar;
         let contact = document.createElement("div");
@@ -149,9 +144,8 @@ function addAvailableUsers(userlist) {
         content.appendChild(document.createTextNode(username));
         contact.appendChild(content);
 
-        let contacts = document.getElementById("contacts");
+        let contacts = document.getElementById("online");
         contacts.appendChild(contact);
     }
-
 }
 

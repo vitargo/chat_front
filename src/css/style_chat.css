@@ -35,8 +35,8 @@ button {
 
 button:hover,
 button:focus {
-    background-color: #0966ff;
-    border-color: #0966ff;
+    background-color: #b14670;
+    border-color: #b14670;
     cursor: pointer;
 }
 
@@ -60,7 +60,7 @@ button:focus {
 /* Title Bar */
 
 #title {
-    background-color: #0084FF;
+    background-color: #b14670;
     font-size: 20px;
     padding: 10px 20px 10px 20px;
     color: #fff;
@@ -158,7 +158,7 @@ button:focus {
 }
 
 #messages .message.sent .sender {
-    color: #0084ff;
+    color: #b14670;
     font-size: 10px;
 }
 

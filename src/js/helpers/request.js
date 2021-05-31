@@ -1,4 +1,5 @@
-export const URL = "http://localhost:8081";
+export const URL = "https://servlet-chat-pinklink.herokuapp.com";
+// export const URL = "http://localhost:8081";
 
 export const getRequest = async (url, options = { method: "GET" }) => {
     const answer = await fetch(url, options);
